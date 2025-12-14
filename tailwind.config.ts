@@ -57,6 +57,19 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        ocean: {
+          dark: "hsl(var(--ocean-dark))",
+          medium: "hsl(var(--ocean-medium))",
+          light: "hsl(var(--ocean-light))",
+        },
+        teal: {
+          DEFAULT: "hsl(var(--teal))",
+          light: "hsl(var(--teal-light))",
+        },
+        sand: "hsl(var(--sand))",
+      },
+      fontFamily: {
+        sans: ['Nunito', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
