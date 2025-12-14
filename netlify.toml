@@ -1,0 +1,5 @@
+[[redirects]]
+  from = "/api/tabua-mare/*"
+  to = "https://tabuamare.devtu.qzz.io/api/v1/:splat"
+  status = 200
+  force = true
