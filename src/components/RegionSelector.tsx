@@ -1,45 +1,57 @@
-import { MapPin, Search } from "lucide-react";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { HARBORS } from '../services/tideServices';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search } from 'lucide-react';
+import { useState } from 'react';
 
 interface RegionSelectorProps {
-  onSearch: (region: string) => void;
+    // onSearch agora espera o ID numérico do porto
+    onSearch: (harborId: number) => void;
 }
 
-const RegionSelector = ({ onSearch }: RegionSelectorProps) => {
-  const [region, setRegion] = useState("");
+const RegionSelector: React.FC<RegionSelectorProps> = ({ onSearch }) => {
+    // Mantém o ID do porto selecionado como string (exigido pelo Select)
+    const [selectedHarborId, setSelectedHarborId] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (region.trim()) {
-      onSearch(region.trim());
-    }
-  };
+    const handleSearch = () => {
+        const id = parseInt(selectedHarborId, 10);
+        if (id) {
+            onSearch(id);
+        } else {
+            alert("Por favor, selecione um porto.");
+        }
+    };
 
-  return (
-    <div className="bg-card rounded-2xl p-6 shadow-xl max-w-lg mx-auto">
-      <div className="flex items-center gap-2 mb-4">
-        <MapPin className="h-5 w-5 text-secondary" />
-        <h3 className="font-semibold text-foreground">
-          Escolha sua região para ver a tábua de marés
-        </h3>
-      </div>
-      <form onSubmit={handleSubmit} className="flex gap-3">
-        <Input
-          type="text"
-          placeholder="Cidade / Estado"
-          value={region}
-          onChange={(e) => setRegion(e.target.value)}
-          className="flex-1 bg-muted border-0 focus-visible:ring-secondary"
-        />
-        <Button type="submit" className="bg-secondary hover:bg-teal-light text-secondary-foreground px-6">
-          <Search className="h-4 w-4 mr-2" />
-          Buscar
-        </Button>
-      </form>
-    </div>
-  );
+    return (
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 p-4 bg-background/90 rounded-xl shadow-2xl max-w-xl mx-auto border border-border">
+            
+            {/* Seletor de Porto */}
+            <div className="flex-1">
+                <Select value={selectedHarborId} onValueChange={setSelectedHarborId}>
+                    <SelectTrigger className="w-full h-12 text-base">
+                        <SelectValue placeholder="Selecione o porto para ver a tábua de marés" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {HARBORS.map((harbor) => (
+                            <SelectItem key={harbor.id} value={String(harbor.id)}>
+                                {harbor.name}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            
+            {/* Botão de Busca */}
+            <Button 
+                onClick={handleSearch}
+                disabled={!selectedHarborId}
+                className="w-full md:w-auto h-12 px-6 bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold transition"
+            >
+                <Search className="h-5 w-5 md:mr-2" />
+                <span className="hidden md:inline">Buscar Marés</span>
+            </Button>
+        </div>
+    );
 };
 
 export default RegionSelector;

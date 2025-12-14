@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 
 const WhatsAppButton = () => {
   const handleClick = () => {
-    const phoneNumber = "5500000000000"; // Número placeholder
+    const phoneNumber = "558193459378"; // Número placeholder
     const message = encodeURIComponent("Olá! Gostaria de falar com um pescador da região.");
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
